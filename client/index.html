@@ -1,0 +1,251 @@
+<html>
+  <head>
+    <title> TenderMint Client</title>
+    <script src = "dist/webAtom.js"> </script> <!-- Imports WebAtom -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous">
+
+    <script src = "dist/core.js"> </script> <!-- JS for this site -->
+
+    <style>
+      .header{
+        padding: 10px;
+      }
+
+      .section_select {
+        padding-left: 10px;
+        padding-right: 10px;
+        color: blue
+      }
+
+      .section_select:hover {
+        background-color: #dddddd;
+        cursor: pointer;
+      }
+
+      .section {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      .node_select {
+      }
+
+      #site-container {
+        padding-bottom: 100px;
+      }
+
+
+    </style>
+
+  </head>
+
+  <body>
+  <div id="site-container" class="container">
+    <div class = "header"> <!-- Header -->
+      <div class="row">
+
+      <strong>Cosmos Client</strong>
+        <a class="section_select" onCLick="selectSection('home_section')">
+          Home
+        </a>
+          <a class="section_select" onCLick="selectSection('wallet_view_section')">
+            View Wallet
+          </a>
+          <a class="section_select" onCLick="selectSection('wallet_section')">
+            Create Wallet
+          </a>
+          <a class="section_select" onCLick="selectSection('tx_create_section')">
+            Create Transaction
+          </a>
+
+          <a class="section_select" onCLick="selectSection('tx_sign_broadcast_section')">
+            Sign & Broadcast
+          </a>
+          <div class="node_select">
+            Current Node:
+              <div id="provider_selection"></div>
+          </div>
+      </div>
+
+  </div> <!-- END Header -->
+
+
+  <div class = "section home_section" style="display:none"> <!-- Home Section -->
+    <p>
+      Welcome to EZ Atom,
+      this is meant as an educational and utility for the movement of Atom
+      or any other asset created utilizing the tendermint protocol.
+
+      Most of the code here runs entirely on client which means it is marginally
+      safer than utilizing an exchange wallet.  That said, it is not a place to
+      create or manage fucking wallets and we do not recommend using it for
+      anything other than education.
+    </p>
+
+  </div> <!-- End Home Section -->
+
+  <div class="wallet_view_section" style="display:none">
+    <div class= "form-group">
+      <label for="walletLookup">
+        Enter Address Here
+      </label>
+      <input id="walletLookup" class="form-control wallet_lookup"/>
+      <button id="lookupButton" class ="btn-success form-control" for="walletLookup">
+        View Wallet
+      </button>
+    </div>
+
+    <div id="viewWalletInfo" style="display:hidden">
+
+    </div>
+  </div>
+
+
+  <div class="wallet_section" style="display:none"> <!-- Wallet Section -->
+    <div class="section card"> <!-- Wallet Derivation -->
+    <div class="card-body">
+      <h2> Get Existing Wallet </h2>
+
+      <p>
+        Get Wallet and Info from entering Seed words.  Keep in mind
+        this is <strong> staggeringly unsafe </strong> and be ready to
+        lose all your money  because someone installed a fucking keylogger
+        on your laptop from all that porn you watch, you lazy sack of shit.
+      </p>
+
+      <textarea class = "to_derive">
+
+
+      </textarea> <br/>
+
+      <button class="btn btn-success deriv_wallet">
+        Get Wallet
+      </button>
+
+      <div class="wallet_info">
+      </div>
+
+    </div>
+    </div> <!-- END Wallet Derivation-->
+
+
+  <div class="card section wallet-gen"> <!-- Wallet Generation -->
+    <div class="card-body">
+
+    <div class="entropy-area">
+      <h2> New Wallet from Seed Phrase</h2>
+      <p>
+      Create Seed Words to generate a Cosmos Wallet.  This isn't a particularly
+      secure way of doing this.  But if you are a retard or are in a hurry and
+      don't want to fuck with the bullshit that is ledger wallet.  Use this tool
+      to do your insecure business.  Fuck you.
+      </p>
+      <button class="btn btn-info seed_words_button">
+        Generate Seed Words
+      </button><br/>
+
+      <label>
+        Seed:
+      </label>
+      <textarea class="generated_words">
+      </textarea><br/>
+
+
+      <button class="btn btn-success useSeedWords" style="display:none">
+        Generate Wallet
+
+      </button>
+
+      <div class = "seedWordWallet">
+      </div>
+
+    </div>
+  </div>
+  </div> <!-- END Wallet Generation -->
+
+
+    <div class="card section entropy-area"> <!-- Wallet Entropy -->
+      <div class="card-body">
+      <h2> New Wallet from Entropy </h2>
+      <p>
+      Create Entropy to generate Wallet (More Secure).  This is a more secure
+      way to generate a wallet.  However, if you spend alot of time on the
+      internet, your shit is still probably screwed and someone is stealing all
+      of your passwords.
+    </p><br/>
+
+      <button class="btn btn-info genEntropy">
+        Begin
+      </button><br/>
+
+      <label>
+        Seed:
+      </label>
+      <textarea class = "generated_entropy">
+      </textarea>
+      <div class = "percent_done">
+
+      </div>
+
+
+
+      <button class = "btn btn-success useEntropy" style="display:none">
+         Generate Wallet
+      </button>
+
+      <div class = "entropyWallet">
+
+      </div>
+    </div>
+    </div> <!-- End Wallet Entropy -->
+  </div> <!-- End Wallet Section -->
+
+  <div class="tx_create_section" style="display:none"> <!-- Transaction Section -->
+    <h1> Transactions </h1>
+
+    <div class="section card"> <!-- Wallet Derivation -->
+    <div class="card-body">
+      <h2> 1. Upload Seed Words </h2>
+
+      <p>
+        Get Wallet and Info from entering Seed words.  Keep in mind
+        this is <strong> staggeringly unsafe </strong> and be ready to
+        lose all your money  because someone installed a fucking keylogger
+        on your laptop from all that porn you watch, you lazy sack of shit.
+      </p>
+
+      <textarea class = "to_upload">
+
+
+      </textarea> <br/>
+
+      <button class="btn btn-success upload_wallet">
+        Upload Wallet
+      </button>
+
+      <div class="wallet_info">
+      </div>
+
+    </div>
+    </div> <!-- END Wallet Derivation-->
+  </div>
+
+  <div class="tx_sign_broadcast_section" style="display:none">
+    <h1> Sign & Broadcast Transactions </h1>
+  </div>
+
+
+  </div>
+  </body>
+
+
+
+</html>
